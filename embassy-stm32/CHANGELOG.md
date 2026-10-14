@@ -102,6 +102,7 @@ I2C:
 
 ADC:
 - feat: stm32/adc: add `VrefInt::calibrated_value()` for additional chips
+- fix: stm32/adc: C5 ignored the RCC `ADCDACPRE` prescaler when computing the ADC clock, so `Adc::new` panicked with HCLK above 70 MHz even when the divided clock was in range.
 
 RNG:
 - feat: stm32/rng: add configurable initialization policy (`RngConfig`) with `new_with_config` and health-test profile control
