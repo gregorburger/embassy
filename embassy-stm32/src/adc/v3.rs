@@ -348,10 +348,16 @@ impl AdcRegs for Regs {
         {
             kernel_clock / PRESCALERS[common.ccr().read().presc().to_bits() as usize].divisor()
         }
-        #[cfg(any(adc_v3_n6, adc_v3_c5))]
+        #[cfg(adc_v3_n6)]
         {
             let _ = common;
             kernel_clock
+        }
+        // C5: the RCC ADCDAC prescaler sits after the kernel clock mux.
+        #[cfg(adc_v3_c5)]
+        {
+            let _ = common;
+            kernel_clock / crate::pac::RCC.ccipr2().read().adcdacpre()
         }
     }
 
